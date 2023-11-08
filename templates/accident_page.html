@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Accident Detection</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="static/assets/css/main.css" />
+    <noscript
+      ><link rel="stylesheet" href="static/assets/css/noscript.css"
+    /></noscript>
+    <script src="https://apis.mapmyindia.com/advancedmaps/v1/<token>/map_load?v=1.5"></script>
+    <script src="https://apis.mapmyindia.com/advancedmaps/api/<token>/map_sdk_plugins"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <style>
+    button {
+			padding: 10px;
+			font-size: 16px;
+			background-color: red;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		button:disabled {
+			background-color: gray;
+			cursor: default;
+		}
+	</style>
+
+  </head>
+  <body class="is-preload landing">
+    <div id="page-wrapper">
+
+      <header id="header">
+        <nav id="nav">
+          <ul>
+            <li>
+              <ul>
+                <li></li>
+
+                <li></li>
+              </ul>
+            </li>
+
+            <li>
+              <a href="{{ url_for('home') }}" class="button primary">Logout</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <section id="two" class="spotlight style2 right">
+        <span width="100" height="200" class="image fit main"
+          ><img src="{{ url_for('video_feed') }}" alt=""
+        /></span>
+        <div class="content">
+          <header>
+            <h2>Accident detection</h2>
+          </header>
+
+          <div id="accident-probability">
+
+            <button onclick="location.href='/accident_detected'" id="accident-button" disabled>Accident Detected
+            </button>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer id="footer">
+        <ul class="icons">
+          <li>
+            <a href="#" class="icon brands alt fa-twitter"
+              ><span class="label">Twitter</span></a
+            >
+          </li>
+          <li>
+            <a href="#" class="icon brands alt fa-facebook-f"
+              ><span class="label">Facebook</span></a
+            >
+          </li>
+          <li>
+            <a href="#" class="icon brands alt fa-linkedin-in"
+              ><span class="label">LinkedIn</span></a
+            >
+          </li>
+          <li>
+            <a href="#" class="icon brands alt fa-instagram"
+              ><span class="label">Instagram</span></a
+            >
+          </li>
+          <li>
+            <a href="#" class="icon brands alt fa-github"
+              ><span class="label">GitHub</span></a
+            >
+          </li>
+          <li>
+            <a href="#" class="icon solid alt fa-envelope"
+              ><span class="label">Email</span></a
+            >
+          </li>
+        </ul>
+        <ul class="copyright">
+          <li>&copy; Untitled. All rights reserved.</li>
+          <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="static/assets/js/jquery.min.js"></script>
+    <script src="static/assets/js/jquery.scrolly.min.js"></script>
+    <script src="static/assets/js/jquery.dropotron.min.js"></script>
+    <script src="static/assets/js/jquery.scrollex.min.js"></script>
+    <script src="static/assets/js/browser.min.js"></script>
+    <script src="static/assets/js/breakpoints.min.js"></script>
+    <script src="static/assets/js/util.js"></script>
+    <script src="static/assets/js/main.js"></script>
+    <script>
+
+
+            $(document).ready(function() {
+			// disable button on page load
+			$('#accident-button').prop('disabled', true);
+			// send request to backend to get probability
+			$.getJSON('/get_accident_probability', function(data) {
+				// if probability is greater than threshold, enable button
+				if (data.accident_prob> 0.95) {
+					$('#accident-button').prop('disabled', false);
+				}
+			});
+		});
+    </script>
+  </body>
+</html>
